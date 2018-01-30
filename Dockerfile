@@ -30,7 +30,7 @@ RUN apt-get install -y -f
 RUN rm -Rf google-chrome-stable_current_amd64.deb
 
 # Install ChromeDriver.
-RUN apt-get install unzip &&
+RUN sudo apt-get install unzip &&
     a=$(uname -m) &&
     rm -r /tmp/chromedriver/
     mkdir /tmp/chromedriver/ &&
