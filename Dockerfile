@@ -30,9 +30,13 @@ RUN apt-get install -y -f
 RUN rm -Rf google-chrome-stable_current_amd64.deb
 
 # Install ChromeDriver.
-RUN wget -N https://chromedriver.storage.googleapis.com/index.html?path=2.35/chromedriver_linux64.zip
-RUN unzip ~/chromedriver_linux64.zip -d ~/
-RUN rm ~/chromedriver_linux64.zip
-RUN mv -f ~/chromedriver /usr/local/bin/chromedriver
-RUN chown root:root /usr/local/bin/chromedriver
-RUN chmod 0755 /usr/local/bin/chromedriver
+sudo apt-get install unzip &&
+a=$(uname -m) &&
+rm -r /tmp/chromedriver/
+mkdir /tmp/chromedriver/ &&
+wget -O /tmp/chromedriver/LATEST_RELEASE http://chromedriver.storage.googleapis.com/LATEST_RELEASE &&
+if [ $a == i686 ]; then b=32; elif [ $a == x86_64 ]; then b=64; fi &&
+latest=$(cat /tmp/chromedriver/LATEST_RELEASE) &&
+wget -O /tmp/chromedriver/chromedriver.zip 'http://chromedriver.storage.googleapis.com/'$latest'/chromedriver_linux'$b'.zip' &&
+sudo unzip /tmp/chromedriver/chromedriver.zip chromedriver -d /usr/local/bin/ &&
+echo 'success?'
